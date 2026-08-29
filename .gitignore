@@ -19,6 +19,10 @@ data/
 *.sqlite3
 *.log
 
+# Documentation references
+llms-full.txt
+*.tmp
+
 # Sensitive Credentials & Certs
 .env
 fubon_config.ini
