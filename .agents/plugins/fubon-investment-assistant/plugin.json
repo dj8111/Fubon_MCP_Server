@@ -1,0 +1,38 @@
+{
+  "name": "fubon-investment-assistant",
+  "version": "1.0.0",
+  "description": "富邦證券 AI 投資助理 (唯讀帳務查詢、本機快照、公開研究分析、即時行情五檔監測與人工核准交易)",
+  "mcpServers": {
+    "fubon-account": {
+      "command": "python",
+      "args": ["-m", "fubon_account_mcp.cli", "serve"],
+      "env": {
+        "PYTHONIOENCODING": "utf-8",
+        "FUBON_DATA_DIR": "c:\\Dev\\Fubon_MCP_Server\\data"
+      }
+    },
+    "fubon-research": {
+      "command": "python",
+      "args": ["-m", "fubon_research_mcp.cli", "serve"],
+      "env": {
+        "PYTHONIOENCODING": "utf-8"
+      }
+    },
+    "fubon-marketdata": {
+      "command": "python",
+      "args": ["-m", "fubon_marketdata_mcp.cli", "serve"],
+      "env": {
+        "PYTHONIOENCODING": "utf-8",
+        "FUBON_DATA_DIR": "c:\\Dev\\Fubon_MCP_Server\\data"
+      }
+    },
+    "fubon-trading": {
+      "command": "python",
+      "args": ["-m", "fubon_trading_mcp.cli", "serve"],
+      "env": {
+        "PYTHONIOENCODING": "utf-8",
+        "FUBON_DATA_DIR": "c:\\Dev\\Fubon_MCP_Server\\data"
+      }
+    }
+  }
+}

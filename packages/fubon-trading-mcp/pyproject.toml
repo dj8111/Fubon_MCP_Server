@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fubon-trading-mcp"
+version = "1.0.0"
+description = "富邦證券人工核准交易、硬性風控引擎與 6 碼 OTP 挑戰 MCP Server"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fubon-common-contracts>=1.0.0",
+    "mcp>=1.0.0",
+]
+
+[project.scripts]
+fubon-trading = "fubon_trading_mcp.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

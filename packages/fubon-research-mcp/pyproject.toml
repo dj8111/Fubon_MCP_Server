@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fubon-research-mcp"
+version = "1.0.0"
+description = "富邦證券公開研究資料、重大訊息與風險分析治理 MCP Server"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fubon-common-contracts>=1.0.0",
+    "mcp>=1.0.0",
+]
+
+[project.scripts]
+fubon-research = "fubon_research_mcp.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>富邦證券 AI 投資助理 (Fubon Neo API)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="chat-app-container">
+    <!-- 頂部精簡導覽列 -->
+    <header class="top-nav">
+      <div class="logo-group">
+        <div class="brand-logo">
+          <div class="logo-shield">FB</div>
+        </div>
+        <div class="brand-text">
+          <h1>富邦證券 <span class="badge-neo">AI 投資助理</span></h1>
+          <span class="sub-text">Fubon Neo API v2.2.9 高治理體系</span>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div class="account-pill" id="accountBadge">
+          <span class="pulse-dot"></span>
+          <span>帳戶：<strong id="accountRef">9800***123</strong></span>
+        </div>
+        <div class="greeting-badge" id="greetingBadge">
+          <span id="greetingText">早安 ☀️ 歡迎使用富邦 AI 助理</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="btnKillSwitch" class="btn-kill-switch" title="緊急熔斷所有交易">
+          <span class="icon">🛑</span> 熔斷開關
+        </button>
+        <button id="btnClearChat" class="btn-icon" title="清除對話紀錄">
+          <span class="icon">🗑️</span>
+        </button>
+        <button id="btnRefresh" class="btn-icon" title="重新載入帳務">
+          <span class="icon">🔄</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 核心單一視窗: AI 投資助理對話主畫面 -->
+    <main class="chat-main-card">
+      <!-- 訊息展示區 -->
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-bubble assistant">
+          <div class="bubble-header">🤖 富邦證券 AI 投資助理</div>
+          <div class="bubble-content">
+            您好！我是富邦證券專屬 AI 投資助理。<br>
+            我能為您提供富邦新一代 API 即時帳務查詢、實質可用購買力防呆試算、Fugle 個股即時五檔報價、公開資訊觀測站研報分析與合規交易草稿審核。<br><br>
+            您可以點擊下方快捷指令，或直接在輸入框輸入您的需求：
+          </div>
+        </div>
+      </div>
+
+      <!-- 快捷對話 Prompt Chips -->
+      <div class="chat-quick-toolbar">
+        <button class="chat-chip" data-msg="查詢庫存損益">📊 庫存資產總表</button>
+        <button class="chat-chip" data-msg="查看資產配置圓餅圖">🍰 資產配置圓餅圖</button>
+        <button class="chat-chip" data-msg="查詢實質購買力與待交割款">⚡ 實質購買力試算</button>
+        <button class="chat-chip" data-msg="2881 富邦金行情">📈 2881 富邦金行情</button>
+        <button class="chat-chip" data-msg="2881 K線">📊 2881 K線走勢</button>
+        <button class="chat-chip" data-msg="2881 研報">📑 2881 綜合研報</button>
+        <button class="chat-chip" data-msg="我想在 72.50 元買進 1 張富邦金">🛒 買進 1 張富邦金</button>
+      </div>
+
+      <!-- 對話輸入列 -->
+      <div class="chat-input-container">
+        <input type="text" id="chatInput" placeholder="請輸入指令（例如：查詢庫存損益、2881 行情、買進 1 張台積電...）" autofocus />
+        <button class="btn-primary btn-send" id="btnSendChat">
+          <span>送出</span> <span class="send-arrow">➤</span>
+        </button>
+      </div>
+    </main>
+
+    <!-- 下單草稿確認與 OTP 挑戰 Modal -->
+    <div class="modal-overlay" id="draftModal" style="display: none;">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 id="modalTitle">🔒 富邦交易草稿審核 (Order Draft)</h3>
+          <button class="modal-close" id="btnModalClose">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="draft-detail-box" id="draftDetailBox">
+            <!-- 動態注入草稿細節 -->
+          </div>
+
+          <div class="risk-checks-box" id="riskChecksBox">
+            <h4>🛡️ 硬性風控檢核結果</h4>
+            <div id="riskChecksList"></div>
+          </div>
+
+          <!-- OTP 授權區 -->
+          <div class="otp-auth-box" id="otpAuthBox" style="display: none;">
+            <div class="otp-instruction">
+              <span class="icon">🔐</span>
+              <div>
+                <strong>請輸入控制台發行之 6 碼 OTP 挑戰碼</strong>
+                <p>授權有效時間: <span id="otpCountdown" class="text-danger">120</span> 秒</p>
+              </div>
+            </div>
+            <div class="otp-input-group">
+              <input type="text" id="otpInput" maxlength="6" placeholder="6 位數字 OTP" />
+              <button class="btn-primary btn-submit-order" id="btnConfirmSubmit">🚀 驗證 OTP 並正式送單</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" id="modalFooter">
+          <button class="btn-outline" id="btnCancelDraft">取消作廢</button>
+          <button class="btn-primary" id="btnApproveDraft">✅ 人工核准草稿 (發行 OTP)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

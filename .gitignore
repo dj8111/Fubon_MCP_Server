@@ -1,0 +1,29 @@
+# Environments & Virtualenv
+venv/
+.venv/
+env/
+ENV/
+
+# Python Cache & Build
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+dist/
+build/
+
+# Local Database & Logs
+data/
+*.db
+*.sqlite3
+*.log
+
+# Sensitive Credentials & Certs
+.env
+fubon_config.ini
+config.ini
+*.pfx
+*.p12
+*.pem
+*.key
